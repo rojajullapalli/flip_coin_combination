@@ -1,10 +1,29 @@
-#!/bin/bash -x
+#!/bin/bash/ 
 echo "flip Coin Combination"
-isHead=1
-randomCheck=$((RANDOM%2))
-if [ $isHead -eq $randomCheck ]
+declare  -A  coin;
+
+coin[heads]=0;
+coin[tails]=0;
+count=0;
+
+addtoDictionary(){
+if [ $1 -eq 0 ]
 then
-	echo "Head is Winner"
+coin[heads]=`expr ${coin[heads]} + 1`;
 else
-	echo "Tail is Winner"
+coin[tails]=`expr ${coin[tails]} + 1`;
 fi
+}
+
+while [ $count -le 25 ]
+do
+flip=$((RANDOM%2));
+addtoDictionary $flip;
+((++count))
+done
+
+perhead=`expr ${coin[heads]} \* 100`;
+perhead=`expr $perhead / 25`;
+pertail=`expr 100 - $perhead`;
+echo "percentage of heads is $perhead"
+echo "percentage of tails is $pertail"
